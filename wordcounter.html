@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Counter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            width: 90%;
+            max-width: 600px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        p {
+            color: #666;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            resize: vertical;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        button {
+            display: inline-block;
+            padding: 10px 20px;
+            color: #fff;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .word-count {
+            text-align: center;
+            font-size: 18px;
+            color: #333;
+        }
+        .history {
+            margin-top: 20px;
+        }
+        .history-item {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Word Counter</h1>
+    <p>Type or paste your text in the box below:</p>
+    <textarea id="textInput" placeholder="Enter your text here..."></textarea><br>
+    <button onclick="countWords()">Count Words</button>
+    <p class="word-count">Total Words: <span id="wordCount">0</span></p>
+    <div class="history" id="history">
+        <h2>History</h2>
+    </div>
+</div>
+
+<script>
+    let history = [];
+
+    function countWords() {
+        let text = document.getElementById("textInput").value;
+        let words = text.trim().split(/\s+/);
+        let wordCount = words.filter(word => word.length > 0).length;
+        document.getElementById("wordCount").textContent = wordCount;
+
+        if (text.length > 0) {
+            history.push({ text, wordCount });
+            updateHistory();
+        }
+    }
+
+    function updateHistory() {
+        const historyDiv = document.getElementById("history");
+        historyDiv.innerHTML = '<h2>History</h2>';
+
+        history.forEach((entry, index) => {
+            const entryDiv = document.createElement("div");
+            entryDiv.className = "history-item";
+            entryDiv.innerHTML = `<p>Entry ${index + 1}: ${entry.wordCount} words</p><p>${entry.text}</p>`;
+            historyDiv.appendChild(entryDiv);
+        });
+    }
+</script>
+
+</body>
+</html>
